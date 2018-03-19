@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/verificationNumbers.js"></script>
+    <script src="js/Particleground.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <script src="js/messages_zh.js"></script>
+</head>
+<style>
+    body{height:100%;background:#16a085;overflow:hidden;}
+    canvas{z-index:-1;position:absolute;}
+    #form{
+        width: 300px;
+        height: 243px;
+        padding: 40px;
+        margin: 100px auto 0;
+    }
+    input.error{
+        border: 1px solid red;
+    }
+    label.error{
+        color: #fff;
+    }
+    input.valid{
+        border: 1px solid green;
+    }
+</style>
+<body>
+<form action="" id="form">
+<dl class="admin_login">
+    <dt>
+        <strong>站点后台管理系统</strong>
+        <em>Management System</em>
+    </dt>
+    <dd class="user_icon" style="margin: 20px 0; overflow: visible">
+        <label for="user"></label>
+        <input type="text" placeholder="账号" class="login_txtbx" id="user" name="user">
+    </dd>
+    <dd class="pwd_icon" style="margin: 20px 0;overflow: visible">
+        <label for="pass"></label>
+        <input type="password" placeholder="密码" class="login_txtbx" id="pass" name="pass">
+    </dd>
+    <dd>
+        <a href="<?php echo $href;?>">
+        <input type="button" value="立即登录" class="submit_btn"/>
+        </a>
+    </dd>
+    <dd>
+        <p>© 2017-2018 DeathGhost 版权所有</p>
+        <p>晋B2-20080224-1</p>
+    </dd>
+</dl>
+</form>
+</body>
+</html>
+<script>
+    $(document).ready(function() {
+        //粒子背景特效
+        $('body').particleground({
+            dotColor: '#5cbdaa',
+            lineColor: '#5cbdaa'
+        });
+        //验证码
+        //createCode();
+        //测试提交，对接程序删除即可
+        let href=document.querySelector('a').href;
+        $(".submit_btn").click(function(){
+            location.href="index.html";
+        });
+
+
+        $("#form").validate({
+            rules:{
+                user:{
+                    required:true,
+                    maxlength:10,
+                    minlength:4,
+                    remote:{
+                        url:"check.php",
+                        method:"post",
+                        data:{
+                            user:function () {
+                                return $("#user").val();
+                            }
+                        }
+                    },
+                },
+                pass:{
+                    required:true,
+                    minlength:5,
+                    maxlength:10,
+                }
+            },
+            message:{
+                user:{
+                    required:"请输入您的账号",
+                    rangelength:"请输入{0}到{1}之间的字符",
+                    //remote:"已经存在",
+                },
+                pass:{
+                    required:"请输入密码",
+                    rangelength:"请输入{0}到{1}之间的字符",
+
+                }
+            },
+        })
+    });
+</script>
